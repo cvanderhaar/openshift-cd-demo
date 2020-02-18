@@ -95,7 +95,7 @@ objects:
             stages {
               stage('Build App') {
                 steps {
-                  git branch: 'eap-7', url: 'http://gogs:3000/gogs/openshift-tasks.git'
+                  git branch: 'eap-7', url: 'https://try.gogs.io/cvanderhaar/openshift-tasks.git'
                   sh "${mvnCmd} install -DskipTests=true"
                 }
               }
@@ -334,13 +334,13 @@ objects:
             GOGS_HOSTNAME="gogs-$CICD_NAMESPACE.$HOSTNAME"
 
             if [ "${EPHEMERAL}" == "true" ] ; then
-              oc new-app -f https://raw.githubusercontent.com/siamaksade/gogs-openshift-docker/master/openshift/gogs-template.yaml \
+              oc new-app -f https://raw.githubusercontent.com/OpenShiftDemos/gogs-openshift-docker/master/openshift/gogs-template.yaml \
                   --param=GOGS_VERSION=0.11.34 \
                   --param=DATABASE_VERSION=9.6 \
                   --param=HOSTNAME=$GOGS_HOSTNAME \
                   --param=SKIP_TLS_VERIFY=true
             else
-              oc new-app -f https://raw.githubusercontent.com/siamaksade/gogs-openshift-docker/master/openshift/gogs-persistent-template.yaml \
+              oc new-app -f https://raw.githubusercontent.com/OpenShiftDemos/gogs-openshift-docker/master/openshift/gogs-persistent-template.yaml \
                   --param=GOGS_VERSION=0.11.34 \
                   --param=DATABASE_VERSION=9.6 \
                   --param=HOSTNAME=$GOGS_HOSTNAME \
@@ -350,7 +350,7 @@ objects:
             sleep 5
 
             if [ "${EPHEMERAL}" == "true" ] ; then
-              oc new-app -f https://raw.githubusercontent.com/siamaksade/sonarqube/master/sonarqube-template.yml --param=SONARQUBE_MEMORY_LIMIT=2Gi
+              oc new-app -f https://raw.githubusercontent.com/OpenShiftDemos/sonarqube-openshift-docker/master/sonarqube-template.yaml --param=SONARQUBE_MEMORY_LIMIT=2Gi
             else
               oc new-app -f https://raw.githubusercontent.com/siamaksade/sonarqube/master/sonarqube-persistent-template.yml --param=SONARQUBE_MEMORY_LIMIT=2Gi
             fi
